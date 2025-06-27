@@ -21,21 +21,14 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
-    //ioDispatcher annotation
-    @Qualifier
-    @Retention(AnnotationRetention.BINARY)
-    annotation class IoDispatcher
-
     // CoroutineDispatcher
     @Provides
-    @IoDispatcher
+    @Singleton
     fun providesCoroutineDispatcher(): CoroutineDispatcher = Dispatchers.IO
 
     //Gson
@@ -50,7 +43,9 @@ object AppModule {
     //Gson converter
     @Provides
     @Singleton
-    fun providesGsonConverterFactory(): GsonConverterFactory = GsonConverterFactory.create()
+    fun providesGsonConverterFactory(
+        gson: Gson
+    ): GsonConverterFactory = GsonConverterFactory.create(gson)
 
     //Interceptor
     @Provides
@@ -110,9 +105,8 @@ object AppModule {
     @Provides
     @Singleton
     fun providesAnimalRepository(
-        apiService: ApiService,
-        gson: Gson
-    ): AnimalRepository = AnimalRepositoryImpl(apiService, gson)
+        apiService: ApiService
+    ): AnimalRepository = AnimalRepositoryImpl(apiService)
 
     //Animal Use Case
     @Provides

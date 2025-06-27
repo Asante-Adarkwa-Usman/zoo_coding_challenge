@@ -8,5 +8,5 @@ data class AnimalListItemModel(
     val locations: List<String> = listOf(),
     val name: String = "",
     val taxonomy: TaxonomyModel = TaxonomyModel(),
-    @Transient val type: AnimalType 
+    @Transient val type: AnimalType
 )

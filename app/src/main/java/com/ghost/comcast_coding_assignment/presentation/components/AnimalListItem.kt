@@ -1,15 +1,8 @@
 package com.ghost.comcast_coding_assignment.presentation.components
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -29,7 +22,7 @@ fun AnimalListItem(animal: AnimalListItemModel) {
             Text("Name: ${animal.name}", style = MaterialTheme.typography.titleMedium)
             Spacer(modifier = Modifier.height(4.dp))
             Text("Phylum: ${animal.taxonomy.phylum}", style = MaterialTheme.typography.bodySmall)
-            Text("Scientific Name: ${animal.taxonomy.scientificName}", style = MaterialTheme.typography.bodySmall)
+            Text("Scientific Name: ${animal.taxonomy.scientificName ?: "N/A"} ", style = MaterialTheme.typography.bodySmall)
 
             Spacer(modifier = Modifier.height(8.dp))
 

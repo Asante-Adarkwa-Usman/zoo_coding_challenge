@@ -1,11 +1,8 @@
 package com.ghost.comcast_coding_assignment.data.remote
 
 import com.ghost.comcast_coding_assignment.data.model.AnimalListItemModel
-import com.ghost.comcast_coding_assignment.utils.Constants.API_KEY
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ApiService {
     //Get animals

@@ -5,21 +5,15 @@ import com.ghost.comcast_coding_assignment.data.model.AnimalListItemModel
 import com.ghost.comcast_coding_assignment.data.model.AnimalsItemModelListWrapper
 import com.ghost.comcast_coding_assignment.data.remote.ApiService
 import com.ghost.comcast_coding_assignment.domain.repository.AnimalRepository
-import com.ghost.comcast_coding_assignment.utils.AnimalType
-import com.ghost.comcast_coding_assignment.utils.UiStatus
-import com.google.gson.Gson
-import com.google.gson.JsonParser
-import com.google.gson.reflect.TypeToken
+import com.ghost.comcast_coding_assignment.utils.*
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.supervisorScope
 import java.util.ArrayList
 import javax.inject.Inject
 
 class AnimalRepositoryImpl @Inject constructor(
-    private val apiService: ApiService,
-    private val gson : Gson
+    private val apiService: ApiService
 ) : AnimalRepository {
     //In-Memory Caching
     private var cachedAnimals: AnimalsItemModelListWrapper? = null
@@ -68,24 +62,23 @@ class AnimalRepositoryImpl @Inject constructor(
     ): List<AnimalListItemModel> {
         return try {
             val response = apiService.getAnimals(name)
-            val rawBody = response.body()
-            Log.d("AnimalRepository", "API response for $name: $rawBody")
 
-            if (response.isSuccessful && rawBody != null) {
-                val jsonElement = JsonParser.parseString(rawBody.toString())
-                if (jsonElement.isJsonArray) {
-                    val listType = object : TypeToken<List<AnimalListItemModel>>() {}.type
-                    gson.fromJson<List<AnimalListItemModel>>(jsonElement, listType)
-                        .map { it.copy(type = type) }
-                } else {
-                    Log.e("AnimalRepository", "Unexpected response for $name: $rawBody")
-                    emptyList()
-                }
+            val contentType = response.headers()["Content-Type"]
+            if (!response.isSuccessful || contentType?.contains("html", true) == true) {
+                Log.e("AnimalRepository", "Invalid response for $name: Content-Type = $contentType")
+                return emptyList()
+            }
+
+            val body = response.body()
+            if (body != null) {
+                body.map { it.copy(type = type) }
             } else {
+                Log.e("AnimalRepository", "Null body for $name")
                 emptyList()
             }
+
         } catch (e: Exception) {
-            Log.e("AnimalRepository", "Error body for $name: $e")
+            Log.e("AnimalRepository", "Error fetching $name: ${e.localizedMessage}")
             emptyList()
         }
     }

@@ -1,25 +1,20 @@
 package com.ghost.comcast_coding_assignment.presentation.vm
 
 import android.util.Log
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.ghost.comcast_coding_assignment.data.model.AnimalListItemModel
-import com.ghost.comcast_coding_assignment.di.AppModule
-import com.ghost.comcast_coding_assignment.domain.AnimalUseCaseImpl
 import com.ghost.comcast_coding_assignment.domain.repository.AnimalUseCase
 import com.ghost.comcast_coding_assignment.utils.UiStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AnimalsViewModel @Inject constructor(
     private val animalUseCase: AnimalUseCase,
-    @AppModule.IoDispatcher private val dispatcher: CoroutineDispatcher
+    private val dispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _allAnimals = MutableStateFlow<UiStatus<List<AnimalListItemModel>>>(UiStatus.Loading)
@@ -28,12 +23,12 @@ class AnimalsViewModel @Inject constructor(
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery
 
-
+  //Updating search query
     fun updateSearchQuery(query: String) {
         _searchQuery.value = query
         applyFilter()
     }
-
+  //Loading animal function and exposing state to ui
     fun loadAnimals() {
         viewModelScope.launch(dispatcher) {
             animalUseCase.execute().collect { result ->
@@ -54,8 +49,10 @@ class AnimalsViewModel @Inject constructor(
         }
     }
 
+
     private var cachedAnimalList: List<AnimalListItemModel> = emptyList()
 
+    //Filtering list
     private fun applyFilter() {
         val query = _searchQuery.value.trim().lowercase()
         val filtered = if (query.isEmpty()) {

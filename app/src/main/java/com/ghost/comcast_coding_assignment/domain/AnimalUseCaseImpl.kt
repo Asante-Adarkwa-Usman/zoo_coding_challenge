@@ -1,8 +1,7 @@
 package com.ghost.comcast_coding_assignment.domain
 
 import com.ghost.comcast_coding_assignment.data.model.AnimalListItemModel
-import com.ghost.comcast_coding_assignment.domain.repository.AnimalRepository
-import com.ghost.comcast_coding_assignment.domain.repository.AnimalUseCase
+import com.ghost.comcast_coding_assignment.domain.repository.*
 import com.ghost.comcast_coding_assignment.utils.UiStatus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
