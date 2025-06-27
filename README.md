@@ -41,7 +41,7 @@
 
 
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Language**: Kotlin
 - **UI**: Jetpack Compose
