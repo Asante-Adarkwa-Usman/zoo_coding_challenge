@@ -28,7 +28,7 @@ class AnimalsViewModel @Inject constructor(
         _searchQuery.value = query
         applyFilter()
     }
-  //Loading animal function and exposing state to ui
+  //Loading animal data and exposing state to ui
     fun loadAnimals() {
         viewModelScope.launch(dispatcher) {
             animalUseCase.execute().collect { result ->
