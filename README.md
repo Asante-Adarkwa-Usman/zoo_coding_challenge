@@ -21,13 +21,13 @@
 
 - Search/filter animals by name or common name
 
-- Dynamic display with orientation-aware layout:
+  Dynamic display with orientation-aware layout:
 
 - Portrait: Vertical list
 
 - Landscape: Horizontal scroll
 
-- Rich data presentation:
+  Rich data presentation:
 
 - All animals: Name, Phylum, Scientific Name
 
@@ -48,7 +48,7 @@
 - **Architecture**: MVVM + CLEAN
 - **Dependency Injection**: Hilt
 - **Networking**: Retrofit
-- **Coroutines** for async handling
+- **Coroutines**: for async handling
 - **State Management**: StateFlow and Compose `collectAsState`
 - **Caching**: In-memory cache with 10-minute expiry
 - **Orientation Handling**: Compose responsive UI
@@ -60,7 +60,7 @@
 
 Endpoints used:
 - `GET /dog` – Fetch all dogs
-- `GET /bird}` – Get all birds data
+- `GET /bird` – Get all birds data
 - `GET /bug` – Get bugs data
 
 ## Testing
